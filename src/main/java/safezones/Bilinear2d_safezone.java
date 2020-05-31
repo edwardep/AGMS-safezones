@@ -38,6 +38,7 @@ public class Bilinear2d_safezone {
         this.u = 0d;
         this.v = 0d;
 
+        // cache the conic safe zone, if applicable
         if(T < 0) {
             u = hyperbola_nearest_neighbor(xi, abs(psi), -T, epsilon);
             v = sqrt(u*u -T);
@@ -49,7 +50,7 @@ public class Bilinear2d_safezone {
             T /= norm_u_v;
         }
         else if(T==0) {
-            u = (xi>0.0) ? 1.0/sqrt(2.0) : -1.0/sqrt(2.0);
+            u = (xi >= 0.0) ? 1.0/sqrt(2.0) : -1.0/sqrt(2.0);
             v = 1.0/sqrt(2.0);
         }
     }

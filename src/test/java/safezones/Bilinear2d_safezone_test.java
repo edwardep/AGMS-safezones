@@ -1,5 +1,6 @@
 package safezones;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static java.lang.Math.sqrt;
@@ -48,7 +49,7 @@ public class Bilinear2d_safezone_test {
 
                 assertEquals( xi_ret, xi, 1E-9);
 
-                System.out.println("p="+p+" q="+q+" xi="+xi+"xi_ret="+xi_ret);
+                //System.out.println("p="+p+" q="+q+" xi="+xi+"xi_ret="+xi_ret);
 
                 for(double T = 1E-5; T<= 1E5; T*=10.) {
                     double sqrtT = sqrt(T);
@@ -70,7 +71,6 @@ public class Bilinear2d_safezone_test {
         assertEquals( zeta.bilinear2d(0.,1.), -1./sqrt(2), 1.E-12);
         assertEquals( zeta.bilinear2d(-1.,0.), -1/sqrt(2), 1.E-12); //note: the SDF here would yield -1 < -1/\sqrt{2}!
 
-        //fixme: this section produces errors
         zeta = new Bilinear2d_safezone(0.,0.,0.); // this should yield the same safe zone as above
         assertEquals( zeta.bilinear2d(1.,0.), 1./sqrt(2), 1.E-12);
         assertEquals( zeta.bilinear2d(1.,1.), 0., 1.E-12);
@@ -161,9 +161,11 @@ public class Bilinear2d_safezone_test {
         assertEquals( zeta.bilinear2d(-1E6,-2), -1, 1E-16);
     }
 
+    @Ignore
     @Test
     public void inner_product_check() {}
 
+    @Ignore
     @Test
     public void test_inner_product() {}
 

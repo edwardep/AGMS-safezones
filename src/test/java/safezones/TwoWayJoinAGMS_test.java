@@ -53,13 +53,18 @@ public class TwoWayJoinAGMS_test {
         double rho = abs(zeta_E)/sqrt(2.0*D);
         for(int i = 0; i < N; i++) {
             Double[] X = sum(E, uniform_random_vector(2*D, 20.0*rho, -10.0*rho));
+
             Double[] X1 = Arrays.copyOfRange(X, 0, D);
             Double[] X2 = Arrays.copyOfRange(X, D,2*D);
+
             double X1X2 = median(transform(X1,d,w), transform(X2,d,w));
+
             int admissible = (TLow <= X1X2) && (X1X2 <= THigh) ? 1 : 0;
-            int safe = (zeta.inf(X) >= 0) ? 1 : 0;
             if(admissible == 1) count_admissible++;
+
+            int safe = (zeta.inf(X) >= 0) ? 1 : 0;
             if(safe == 1) count_safe++;
+
             assert safe <= admissible;
         }
 

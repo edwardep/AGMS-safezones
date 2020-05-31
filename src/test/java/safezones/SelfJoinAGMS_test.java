@@ -53,7 +53,7 @@ public class SelfJoinAGMS_test {
                 else count_notInZ++;
 
                 //fixme: not passing this assertion, meaning that it is "in Z" while "not inA"
-                //assert inZ <= inA;
+                assert inZ <= inA;
             }
             System.out.println("Upper bound test:");
             System.out.println("in A: " + count_inA + ", not in A: " + count_notInA);
@@ -140,7 +140,7 @@ public class SelfJoinAGMS_test {
 
                 // X = E + rand
                 for (int w = 0; w < X.getWidth(); w++)
-                    X.setSketchColumn(w, sum(E.getSketchColumn(w), uniform_random_vector(X.getDepth(), 2*1.65, -1.65)));
+                    X.setSketchColumn(w, sum(E.getSketchColumn(w), uniform_random_vector(X.getDepth(), 4,-2)));//2*1.65, -1.65)));
 
                 int inA = (abs(median(X.getSketch()) - Emed) <= 0.1*Emed) ? 1 : 0;
                 if(inA == 1) count_inA++;
@@ -151,7 +151,7 @@ public class SelfJoinAGMS_test {
                 else count_notInZ++;
 
                 //fixme: not passing this assertion, meaning that it is "in Z" while "not inA"
-                //assert inZ <= inA;
+                assert inZ <= inA;
             }
             System.out.println("Both bounds test:");
             System.out.println("in A: " + count_inA + ", not in A: " + count_notInA);

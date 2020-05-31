@@ -105,7 +105,7 @@ public class TwoWayJoinAGMS {
         upper.setup(norm_upper, norm_lower);
     }
 
-    //fixme: this function might not be correct since the x, y where defined as incremental values in cpp code
+    //fixme: this function might not be correct since the x, y were defined as incremental values in cpp code
     // but there wasn't a non incremental version implemented
     public double inf(Double[] X) {
         assert X.length == 2*D;

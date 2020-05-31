@@ -3,6 +3,32 @@ package safezones;
 import java.util.Arrays;
 import static utils.SketchOperators.multiply;
 
+/**
+ Safezone for boolean quorum queries.
+
+ A \f$(n,k)\f$-quorum boolean function is the boolean function
+ which is true if and only if \f$k\f$ or more of its
+ inputs are true. In particular:
+ * For \f$k=1\f$ this function is the logical OR.
+ * For \f$k=n\f$ it is the logical AND.
+ * For \f$k=(n+1)/2\f$, it is the majority function.
+
+ This implementation computes an expensive version of the
+ safe zone function. In particular, it preserves eikonality
+ and non-redundancy of the inputs.
+
+ Because of its complexity, evaluating this function is expensive:
+ each invocation takes time \f$O(\binom{l}{l-k+1})\f$ which can
+ be quite high (\f$l \leq n \f$ is the number of true components
+ in the original estimate vector, or, equivalently, the number
+ of positive elements of vector \f$zE\f$ passed at construction).
+
+ Because it is so expensive for large \f$n\f$, a fast safe zone
+ is also available. Its advantage is that it is quite efficient:
+ each call takes \f$O(l)\f$ time.
+ Its drawback is that it is not eikonal.
+
+ */
 public class SafezoneQuorum {
 
     private int n;              // the number of inputs
@@ -43,6 +69,11 @@ public class SafezoneQuorum {
             throw new IllegalArgumentException("The reference vector is non-admissible:"+ Arrays.toString(zE));
     }
 
+    /**
+     *  This recursion is used to compute zinf, when the cached array is just $\zeta(E_i)^2$.
+     *  The recursion performs 2C additions, C divisions, C square roots and C comparisons,
+     *  where C = (l choose m)
+     */
     private double find_min(int m, int l, int b, Double[] zEzX, Double[] zE2, double SzEzX, double SzE2) {
         if(m==0) return SzEzX/Math.sqrt(SzE2);
 
@@ -54,6 +85,16 @@ public class SafezoneQuorum {
             zinf = Math.min(zinf, zi);
         }
         return zinf;
+    }
+
+    /**
+     * This recursion is used to compute zinf, when the cached array is all clause denominators.
+     * The recursion performs C additions, C divisions C comparisons,
+     * where C = (l choose m).
+     * In particular, no sqrt() are performed!
+     */
+    private double find_min_cached(int m, int l, int b, Double[] zEzX, double SzEzX, double[] D) {
+        return 0d;
     }
 
     private double zetaEikonal(Double[] zX) {
@@ -72,6 +113,7 @@ public class SafezoneQuorum {
         int l = L.length;
         int m = l - k + 1;
 
+        // selecting find_min by default because find_min_cached is not implemented yet
         return find_min(m, l, 0, zEzX, zCached, 0d,0d);
     }
 
@@ -90,6 +132,7 @@ public class SafezoneQuorum {
         return res;
     }
 
+    // This version just caches $\zeta(E_i)^2$ (saving us some multiplications)
     public void prepareZCache() {
         this.zCached = new Double[zetaE.length];
         this.zCached = Arrays.copyOf(multiply(zetaE, zetaE), zetaE.length);
@@ -97,6 +140,11 @@ public class SafezoneQuorum {
 
     public double median(Double[] zX) {
         return eikonal ? zetaEikonal(zX) : zetaNonEikonal(zX);
+    }
+
+    // Helper recursion for caching clause denominators
+    private static void fill_denom(int m, int l, int b, Double[] zE2, double SzE2, Double[] D) {
+
     }
 
     public int getN() {

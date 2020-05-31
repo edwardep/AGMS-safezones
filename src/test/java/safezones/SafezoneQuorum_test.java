@@ -112,7 +112,6 @@ public class SafezoneQuorum_test {
 
         for(int i = 0; i < quorum.getL().length; i++)
             assert quorum.getZetaE()[i]*quorum.getZetaE()[i] == quorum.getzCached()[i];
-
     }
 
     @Test

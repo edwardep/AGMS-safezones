@@ -8,8 +8,8 @@ public class FastAGMS_proto {
     private int depth;
     private int width;
 
-    private Long seedVector[][];
-    private Double sketchVector[][];
+    private Long[][] seedVector;
+    private Double[][] sketchVector;
 
     private UniformRandomProvider rng;
 
