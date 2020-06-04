@@ -52,7 +52,6 @@ public class SelfJoinAGMS_test {
                 if (inZ == 1) count_inZ++;
                 else count_notInZ++;
 
-                //fixme: not passing this assertion, meaning that it is "in Z" while "not inA"
                 assert inZ <= inA;
             }
             System.out.println("Upper bound test:");
@@ -79,8 +78,8 @@ public class SelfJoinAGMS_test {
             double Emed = median(E.getSketch());
 
             SelfJoin_lowerBound sz;
-            try { sz = new SelfJoin_lowerBound(E.getSketch(), 0.9 * Emed, true); }
-            catch (IllegalArgumentException e) { i--; continue; }
+            sz = new SelfJoin_lowerBound(E.getSketch(), 0.9 * Emed, true);
+
 
             assertTrue(0.0 < sz.median(E.getSketch()));
 
@@ -127,8 +126,8 @@ public class SelfJoinAGMS_test {
             double Emed = median(E.getSketch());
 
             SelfJoinAGMS sz;
-            try { sz = new SelfJoinAGMS(E.getSketch(), 0.9*Emed, 1.1*Emed, true); }
-            catch (IllegalArgumentException e) { i--; continue; }
+            sz = new SelfJoinAGMS(E.getSketch(), 0.9*Emed, 1.1*Emed, true);
+
 
             assertTrue(0.0 < sz.inf(E.getSketch()));
 
@@ -150,7 +149,6 @@ public class SelfJoinAGMS_test {
                 if (inZ == 1) count_inZ++;
                 else count_notInZ++;
 
-                //fixme: not passing this assertion, meaning that it is "in Z" while "not inA"
                 assert inZ <= inA;
             }
             System.out.println("Both bounds test:");

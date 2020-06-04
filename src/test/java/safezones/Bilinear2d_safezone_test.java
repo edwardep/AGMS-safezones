@@ -160,13 +160,4 @@ public class Bilinear2d_safezone_test {
         assertEquals( zeta.bilinear2d(1E6,1), 0, 1E-16);
         assertEquals( zeta.bilinear2d(-1E6,-2), -1, 1E-16);
     }
-
-    @Ignore
-    @Test
-    public void inner_product_check() {}
-
-    @Ignore
-    @Test
-    public void test_inner_product() {}
-
 }

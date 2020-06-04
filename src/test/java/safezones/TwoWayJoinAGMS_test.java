@@ -13,10 +13,7 @@ import static utils.SketchOperators.transform;
 
 public class TwoWayJoinAGMS_test {
 
-    /**
-     * NOT PASSING. assertion error rises in bisection function of Bilinear2d_safezone.class but
-     * the problem must be somewhere else...
-     */
+
     @Test
     public void test_twoWay_join_agms_safezone1()
     {
@@ -28,20 +25,15 @@ public class TwoWayJoinAGMS_test {
         double E1E2, TLow, THigh;
         TwoWayJoinAGMS zeta = null;
 
-        do {
-            E = uniform_random_vector(2*D, 20, -10);
+        E = uniform_random_vector(2*D, 20, -10);
 
-            E1 = Arrays.copyOfRange(E, 0, D);
-            E2 = Arrays.copyOfRange(E, D,2*D);
+        E1 = Arrays.copyOfRange(E, 0, D);
+        E2 = Arrays.copyOfRange(E, D,2*D);
 
-            E1E2 = median(transform(E1,d,w), transform(E2,d,w));
-            TLow = E1E2 - 0.1*abs(E1E2);
-            THigh = E1E2 + 0.1*abs(E1E2);
-
-            try { zeta = new TwoWayJoinAGMS(E, d, w, TLow, THigh, true); }
-            catch (IllegalArgumentException ignored) { }
-
-        } while (zeta == null);
+        E1E2 = median(transform(E1,d,w), transform(E2,d,w));
+        TLow = E1E2 - 0.1*abs(E1E2);
+        THigh = E1E2 + 0.1*abs(E1E2);
+        zeta = new TwoWayJoinAGMS(E, d, w, TLow, THigh, true);
 
         double zeta_E = zeta.inf(E);
         assertTrue(0.0 <= zeta_E);

@@ -87,16 +87,6 @@ public class SafezoneQuorum {
         return zinf;
     }
 
-    /**
-     * This recursion is used to compute zinf, when the cached array is all clause denominators.
-     * The recursion performs C additions, C divisions C comparisons,
-     * where C = (l choose m).
-     * In particular, no sqrt() are performed!
-     */
-    private double find_min_cached(int m, int l, int b, Double[] zEzX, double SzEzX, double[] D) {
-        return 0d;
-    }
-
     private double zetaEikonal(Double[] zX) {
         // pre-compute zeta_i(E)*zeta_i(X) for all i in L
         Double[] zEzX = zetaE.clone();
@@ -140,11 +130,6 @@ public class SafezoneQuorum {
 
     public double median(Double[] zX) {
         return eikonal ? zetaEikonal(zX) : zetaNonEikonal(zX);
-    }
-
-    // Helper recursion for caching clause denominators
-    private static void fill_denom(int m, int l, int b, Double[] zE2, double SzE2, Double[] D) {
-
     }
 
     public int getN() {

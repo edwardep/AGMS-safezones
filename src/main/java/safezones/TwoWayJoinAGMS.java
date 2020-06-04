@@ -43,7 +43,7 @@ public class TwoWayJoinAGMS {
 
             for(int i = 0; i < depth; i++){
                 // create the bilinear 2d safezones
-                zeta_2d.add(new Bilinear2d_safezone(norm_xi[i], norm_psi[i], 4.*T));
+                zeta_2d.add(new Bilinear2d_safezone(norm_xi[i], norm_psi[i], 4. * T));
 
                 // compute the zeta_e vector for the median
                 zeta_E[i] = zeta_2d.get(i).bilinear2d(norm_xi[i], norm_psi[i]) * sqrt(0.5);
@@ -52,16 +52,25 @@ public class TwoWayJoinAGMS {
             //fixme: is this normalization correct?
             this.hat = normalize(hat, norm_xi);
 
-            sz.prepare(zeta_E, (depth+1)/2);
+            try {
+                sz.prepare(zeta_E, (depth + 1) / 2);
+            }
+            catch (IllegalArgumentException exp ){
+                throw exp;
+            }
         }
 
         /**
          * Computes the safezone of the median of the 2d safezone functions
-         * @param x2
-         * @param y2
+         * @param x
+         * @param y
          * @return
          */
-        public double zeta(Double[] x2, Double[] y2) {
+        public double zeta(Double[] x, Double[] y) {
+
+            Double[] x2 = dotProduct(transform(x,depth,width), transform(hat,depth,width));
+            Double[] y2 = dotProduct(transform(y,depth,width), transform(y,depth,width));
+
             Double[] zeta_X = new Double[depth];
             for(int i = 0; i < depth; i++)
                 zeta_X[i] = zeta_2d.get(i).bilinear2d(x2[i], sqrt(y2[i])) * sqrt(0.5);
@@ -97,6 +106,8 @@ public class TwoWayJoinAGMS {
         lower.hat = sum(s1, s2);
         upper.hat = subtract(s1, s2);
 
+
+
         //fixme: is this normalization correct?
         Double[] norm_lower = normRow(transform(lower.hat, d, w));
         Double[] norm_upper = normRow(transform(upper.hat, d, w));
@@ -117,6 +128,6 @@ public class TwoWayJoinAGMS {
         Double[] x = sum(s1, s2);
         Double[] y = subtract(s1, s2);
 
-        return Math.min(lower.zeta(x, y), upper.zeta(x, y));
+        return Math.min(lower.zeta(x, y), upper.zeta(y, x));
     }
 }

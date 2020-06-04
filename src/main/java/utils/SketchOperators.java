@@ -128,11 +128,14 @@ public class SketchOperators {
         }
         return res;
     }
+
     //not checked
     public static Double[] normalize(Double[] vector, Double[] norm) {
+        assert vector.length % norm.length == 0;
+        int w = vector.length / norm.length;
         Double[] res = new Double[vector.length];
         for(int i = 0; i < vector.length; i++)
-            res[i] = vector[i] / norm[i % norm.length];
+            res[i] = vector[i] / norm[i / w];
         return res;
     }
 
@@ -158,7 +161,7 @@ public class SketchOperators {
 
     public static Double median(Double[] queryVector) {
         Arrays.sort(queryVector);
-        return queryVector[(queryVector.length + 1)/2];
+        return queryVector[(queryVector.length)/2];
     }
 
     public static Double median(Double[][] sk1, Double[][] sk2) {
